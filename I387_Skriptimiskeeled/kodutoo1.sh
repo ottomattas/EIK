@@ -7,6 +7,7 @@
 # v0.1.1 Parandatud vorming
 # v0.1.2 SAMBA osa eemaldatud
 # v0.2 Parandatud kasutajale väljastatavad suunised
+# v0.3 Kaustale grupiõiguste andmine
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -38,3 +39,12 @@ test -d $KAUST || mkdir -p $KAUST
 #Kontrollib, kas grupp on olemas (vajadusel loob)
 
 getent group $GRUPP > /dev/null || addgroup $GRUPP  > /dev/null
+
+#Annab grupile kausta grupiõigused
+sudo chgrp -R $GRUPP $KAUST
+
+#Annab kaustale ainult grupil ligi pääseda
+sudo chmod -R 770 $KAUST
+
+#Iga kausta loodud fail on sama grupiõigusega kui kaust
+chmod -R g+s $KAUST

@@ -6,6 +6,7 @@
 # v0.1 Poolik skript aine materjalidest lisatud Otto GIT reposse. Source: https://wiki.itcollege.ee/index.php/Bash_n%C3%A4ide
 # v0.1.1 Parandatud vorming
 # v0.1.2 SAMBA osa eemaldatud
+# v0.2 Parandatud kasutajale väljastatavad suunised
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -15,7 +16,7 @@ export LC_ALL=C
 #Kontrollib, kas skript on käivitatud juurkasutajana
 	if [ $UID -ne 0 ]
 		then
-			echo "käivita skript $(basename $0) juurkasutaja õigustes"
+			echo "Käivita skript $(basename $0) juurkasutaja õigustes!"
 		exit 1
 	fi
 
@@ -26,7 +27,7 @@ export LC_ALL=C
 			KAUST=$1
 			GRUPP=$2
 		else
-			echo "kasuta skripti $(basename $0): KAUST GRUPP"
+			echo "Kasuta skripti järgmiselt: "# bash $(basename $0) [KAUST] [GRUPP]""
 		exit 1
 	fi
 

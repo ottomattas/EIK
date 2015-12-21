@@ -8,6 +8,7 @@
 # v0.1.2 SAMBA osa eemaldatud
 # v0.2 Parandatud kasutajale väljastatavad suunised
 # v0.3 Kaustale grupiõiguste andmine
+# v0.3.1 Parandatud vorming
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -22,7 +23,6 @@ export LC_ALL=C
 	fi
 
 #Kontrollib, kas on ette antud õige arv muutujaid
-
 	if [ $# -eq 2 ]
 		then
 			KAUST=$1
@@ -33,11 +33,9 @@ export LC_ALL=C
 	fi
 
 #Kontrollib, kas kaust on olemas (vajadusel loob)
-
 test -d $KAUST || mkdir -p $KAUST
 
 #Kontrollib, kas grupp on olemas (vajadusel loob)
-
 getent group $GRUPP > /dev/null || addgroup $GRUPP  > /dev/null
 
 #Annab grupile kausta grupiõigused

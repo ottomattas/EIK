@@ -5,6 +5,7 @@
 #Vers. tabel
 # v0.1 Skripti põhja ülesseadmine
 # v0.2 Skripti sisu kirjutamine Ubuntu peal töötamiseks
+# v0.2.1 Veebisaidi aktiveerimine parandatud
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -42,7 +43,7 @@ export LC_ALL=C
 #Veebisaidi sisu loomine
 	mkdir -p /var/www/$URL
 	cp /var/www/html/index.html /var/www/$URL
-	cp /etc/apache2/sites-available/default /etc/apache2/sites-available/$URL
+	cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/"$URL".conf
 
 #Veebisaidi aktiveerimine
 	a2ensite $URL

@@ -9,6 +9,7 @@
 # v0.2 Parandatud kasutajale väljastatavad suunised
 # v0.3 Kaustale grupiõiguste andmine
 # v0.3.1 Parandatud vorming
+# v0.4 Parandatud kasutajale väljastatavad suunised
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -28,7 +29,7 @@ export LC_ALL=C
 			KAUST=$1
 			GRUPP=$2
 		else
-			echo "Kasuta skripti järgmiselt: "# bash $(basename $0) [KAUST] [GRUPP]""
+			echo "Kasuta skripti järgmiselt: "$ sudo sh $(basename $0) [KAUST] [GRUPP]""
 		exit 1
 	fi
 

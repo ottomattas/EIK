@@ -8,9 +8,7 @@
 # v0.2.1 Veebisaidi aktiveerimine parandatud
 # v0.2.2 Veebisaidi sisu loomine parandatud
 # v1.0 Valmistoode
-
-#NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
-#mõeldud alustamiseks ja parandamiseks
+# v1.0.1 Näpuveaparandus
 
 export LC_ALL=C
 

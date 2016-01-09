@@ -10,9 +10,7 @@
 # v0.3 Kaustale grupiõiguste andmine
 # v0.3.1 Parandatud vorming
 # v0.4 Parandatud kasutajale väljastatavad suunised
-
-#NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
-#mõeldud alustamiseks ja parandamiseks
+# v1.0 Valmistoode
 
 export LC_ALL=C
 
@@ -29,7 +27,7 @@ export LC_ALL=C
 			KAUST=$1
 			GRUPP=$2
 		else
-			echo "Kasuta skripti järgmiselt: "$ sudo sh $(basename $0) [KAUST] [GRUPP]""
+			echo "Kasuta skripti järgmiselt: "$(basename $0) [KAUST] [GRUPP]""
 		exit 1
 	fi
 
@@ -47,3 +45,6 @@ sudo chmod -R 770 $KAUST
 
 #Iga kausta loodud fail on sama grupiõigusega kui kaust
 chmod -R g+s $KAUST
+
+#Tulemuse raport kasutajale
+echo -e "Kausta \e[1;4m$KAUST\e[0m (grupi \e[1;4m$GRUPP\e[0m õigustega) leiad skriptiga samast kaustast!"

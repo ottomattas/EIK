@@ -7,6 +7,7 @@
 # v0.2 Skripti sisu kirjutamine Ubuntu peal töötamiseks
 # v0.2.1 Veebisaidi aktiveerimine parandatud
 # v0.2.2 Veebisaidi sisu loomine parandatud
+# v1.0 Valmistoode
 
 #NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
 #mõeldud alustamiseks ja parandamiseks
@@ -25,7 +26,7 @@ export LC_ALL=C
 		then
 			URL=$1
 		else
-			echo "Kasuta skripti järgmiselt: "$ sudo sh $(basename $0) [URL]""
+			echo "Kasuta skripti järgmiselt: "$(basename $0) [URL]""
 		exit 1
 	fi
 
@@ -33,20 +34,42 @@ export LC_ALL=C
 	IP="$(ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://')"
 
 #Nimelahendus /etc/hosts faili
-	echo "$IP $URL" >> /etc/hosts
-	echo "127.0.0.1 $URL" >> /etc/hosts
+	if grep --quiet $URL /etc/hosts
+		then
+			echo -e "\e[1;4m$URL\e[0m on /etc/hosts failis juba varem defineeritud. Kindel, et samanimeline veebikodu juba loodud pole?" 
+		else
+			echo "$IP $URL" >> /etc/hosts
+			echo "127.0.0.1 $URL" >> /etc/hosts
 
 #Apache paigaldamine
-	sudo apt-get update > /dev/null
-#	sudo apt-get dist-upgrade > /dev/null  <Funktsionaalsus arendamata
-	sudo apt-get install apache2
+			sudo apt-get update > /dev/null
+#			sudo apt-get dist-upgrade > /dev/null  <Funktsionaalsus arendamata
+			sudo apt-get install apache2
 
 #Veebisaidi sisu loomine
-	mkdir -p /var/www/$URL
-	cp /var/www/html/index.html /var/www/$URL
-	cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/"$URL".conf
-	sed -i "s:/var/www/html:/var/www/$URL:" /etc/apache2/sites-available/"$URL".conf
+			if [ -d /var/www/$URL ]
+				then
+					echo -e "Kaust /var/www/\e[1;4m$URL\e[0m on juba olemas. Kindel, et samanimeline veebikodu juba loodud pole?"
+				else
+					mkdir -p /var/www/$URL
+					cp /var/www/html/index.html /var/www/$URL
+					if [ -f /etc/apache2/sites-available/"$URL".conf ]
+						then
+							echo -e "Fail /etc/apache2/sites-available/\e[1;4m"$URL"\e[0m.conf on juba olemas. Kindel, et samanimeline veebikodu juba loodud pole?"
+						else					
+							cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/"$URL".conf
+							sed -i "s:/var/www/html:/var/www/$URL:" /etc/apache2/sites-available/"$URL".conf
 
 #Veebisaidi aktiveerimine
-	a2ensite $URL
-	service apache2 reload
+							a2ensite $URL
+							service apache2 reload
+
+#Tulemuse raport kasutajale
+							echo -e "Veebikodu \e[1;4m$URL\e[0m loomine õnnestus!"
+ 
+						exit 1
+					fi
+				exit 1
+			fi
+		exit 1
+	fi

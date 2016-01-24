@@ -9,6 +9,7 @@
 # v0.2.2 Veebisaidi sisu loomine parandatud
 # v1.0 Valmistoode
 # v1.0.1 Näpuveaparandus
+# v1.1 Apache paigaldamise tingimuslikkuse seadmine
 
 export LC_ALL=C
 
@@ -39,10 +40,17 @@ export LC_ALL=C
 			echo "$IP $URL" >> /etc/hosts
 			echo "127.0.0.1 $URL" >> /etc/hosts
 
-#Apache paigaldamine
-			sudo apt-get update > /dev/null
-#			sudo apt-get dist-upgrade > /dev/null  <Funktsionaalsus arendamata
-			sudo apt-get install apache2
+#Kontrollib, kas apache on paigaldatud (vajadusel paigaldab)
+	type apache2 > /dev/null 2>&1 
+ 
+	if [ $? -ne 0 ]
+		then
+			echo "Apache esmakordne paigaldamine..."
+			apt-get update > /dev/null 2>&1
+#			apt-get dist-upgrade > /dev/null 2>&1 <Funktsionaalsus arendamata
+			apt-get install apache2 -y
+		exit 1
+	fi
 
 #Veebisaidi sisu loomine
 			if [ -d /var/www/$URL ]

@@ -7,55 +7,46 @@
 # v0.1 Ülesande defineerimine
 # v0.1.1 Kondikava ülespanek
 # v0.1.2 Sisendfailist saame vähendatud listi
+# v0.1.3 Koodi vormingu seadmine
+
 import sys
 
-#Skript kontrollib argumentide arvu
+print "################################################################################"
+print "###PROGRAMM EI TÖÖTA KAUGELTKI VEEL NII NAGU ÜLESANDE LÄHTETEKST SEDA SOOVIB!###"
+print "################################################################################"
+
+
+#Programm kontrollib argumentide arvu
 if len(sys.argv) != 3:
 	print "Argumentide arv on vale!"
 	print "Kasuta programmi järgmiselt:", sys.argv[0], "[SISENDFAIL] [VÄLJUNDFAIL]"
 	sys.exit(1)
 
-#Määra sisendfail
+#Määra SISENDFAIL (lisaks kontroll selle faili avamise võimalikkusele)
 try:
 	input_file = open(sys.argv[1], 'r')
-
-#	lines = input_file.read().split('\t')
-#	x = lines
-#	x = x[2:]
-#	print x
-#	with open(sys.argv[1], 'r') as myfile:
-#		data=myfile.read().replace('\n', '')
-#		data[0: data.find(' ') ]
-#	print data
-
-#	with open(sys.argv[1]) as f:
-#		lines = f.readlines()
-#		lines.partition('\t')[0]
-
-#	for number in input_file.read().split('\t'):
-#		print number
-#	for nimi in input_file.read().split():
-#		print nimi
-#	input_file.close
-
+	#Leiame sisendfailist listid
+	for line in input_file:
+		#Eraldame listist vajaliku info
+		data = line.split(' ')
+		data = data[0:2]
+		#TESTPRINT
+		print data
+		#Sulgeme SISENDFAILI
+	input_file.close()
 except IOError:
 	print "Sisendfaili ei saa avada..."
 	sys.exit(2)
-#Määra väljundfail
+
+#Määra VÄLJUNDFAIL (lisaks kontroll selle faili avamise võimalikkusele)
 try:
 	output_file = open(sys.argv[2], 'w')
-	output_file.write('hasdi there :)\n')
+#	print t2ht+perenimi','t2isnimi','eesnimi'.'perenimi'@itcollege.ee,'token
+	#Sulgeme VÄLJUNDFAILI
 	output_file.close()
 except IOError:
 	print "Väljundfaili ei saa kirjutada..."
 	sys.exit(3)
-
-#Eemalda väljundist numbrid
-data = input_file.read().split('\t')
-#Eemalda väljundist päis
-data = data[2:]
-print data
-
 
 #Tulemuse raport kasutajale
 print "Programm lõpetas töö."

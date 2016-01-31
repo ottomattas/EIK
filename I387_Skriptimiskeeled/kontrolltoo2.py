@@ -10,6 +10,7 @@
 # v0.1.3 Koodi vormingu seadmine
 # v0.2 Ees- ja perekonnanime leidmine lisatud
 # v1.0 Valmistoode
+# v1.0.1 Formaati parandatud
 
 import sys
 import random
@@ -49,18 +50,17 @@ try:
 			email = eesnimi.lower() + "." + perekonnanimi.lower() + "@itcollege.ee"
 			#Leiame 20st suvalisest tähemärgist koosneva tokeni
 			token = "".join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(20))
-			##################################################################
-			##################################################################
-			# Vali endale meelepärane meetod CSV failis väärtuste kuvamiseks:#
-			##################################################################
+			##########################################################################
+			##########################################################################
+			# Vali endale kahest meelepärasem meetod CSV failis väärtuste kuvamiseks:#
+			##########################################################################
 			# 1) CSV faili väljastatav tulemus // täisnime variant (ühes väärtuses on mõlemad, nii ees- kui ka perekonnanimi)
-			# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 			tulemus = kasutajatunnus, taisnimi, email, token
-			#################################################################
+			##########################################################################
 			# 2) CSV faili väljastatav tulemus // eraldi nimede variant (ühes väärtuses on eesnimi, teises perekonnanimi)
 			#tulemus = kasutajatunnus, eesnimi, perekonnanimi, email, token
-			#################################################################
-			#################################################################
+			##########################################################################
+			##########################################################################
 			try:
 				output_file = open(sys.argv[2], 'a')
 				valjund = csv.writer(output_file, quoting=csv.QUOTE_ALL)

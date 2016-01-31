@@ -5,6 +5,7 @@
 #Vers. tabel
 # v0.1 Skriptikäivituskontrollid on inspireeritud ainekursuse materjalidest. Source: https://wiki.itcollege.ee/index.php/Bash_n%C3%A4ide
 # v0.2 Lisatud failiotsing kasutajale kirjutamiseks kättesaadavate failide nimekirja printimiseks väljundfaili ning väljundfaili avamise kontrolli täiustus.
+# v0.3 Funktsionaalsus uue faili loomiseks samanimelise faili olemasolul lõpuni arendamata!
 
 export LC_ALL=C
 
@@ -51,6 +52,10 @@ export LC_ALL=C
 						echo "Väljundfaili ei saa avada!"
 					exit 2
 				fi
+#		else
+#			echo "Väljundfailiga samanimeline fail on olemas, loome uue väljundfaili!"
+#			touch $VALJUNDFAIL-$(date '+%FT%T')
+#			set --"$VALJUNDFAIL"
         fi
 
 #Skript leiab kõik failid parameetriks küsitud kataloogist, millele parameetriks küsitud kasutajanimega kasutajal on kirjutamisõigus.

@@ -47,7 +47,6 @@ try:
 						valjund = str(valjund)
 						#Kirjutame tulemused faili eraldi ridadele
 						output_file.write(valjund + "\n")
-						output_file.close()
 				except IOError:
 					print "Väljundfaili ei saa kirjutada..."
 					sys.exit(3)

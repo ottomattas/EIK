@@ -11,16 +11,11 @@
 # v0.2 Ees- ja perekonnanime leidmine lisatud
 # v1.0 Valmistoode
 # v1.0.1 Formaati parandatud
+# v1.1 Parandatud väljundfaili kirjutamine
 
 import sys
 import random
 import string
-import csv
-
-#print "################################################################################"
-#print "###PROGRAMM EI TÖÖTA KAUGELTKI VEEL NII NAGU ÜLESANDE LÄHTETEKST SEDA SOOVIB!###"
-#print "################################################################################"
-
 
 #Programm kontrollib argumentide arvu
 if len(sys.argv) != 3:
@@ -30,8 +25,8 @@ if len(sys.argv) != 3:
 
 #Ava SISENDFAIL listina ilma tühjade ridadeta (lisaks kontroll selle faili avamise võimalikkusele)
 try:
-	with open(sys.argv[1], 'r') as SISENDFAIL:
-		data = filter(None, (line.rstrip() for line in SISENDFAIL))
+	with open(sys.argv[1], 'r') as input_file:
+		data = filter(None, (line.rstrip() for line in input_file))
 		#Eraldame listist nimed
 		data = data[1:]
 		for elem in data:
@@ -46,7 +41,7 @@ try:
 			taisnimi = eesnimi + " " + perekonnanimi
 			#Leiame kasutajanime (eesnime esitäht + perekonnanimi, max 8 tähemärki)
 			kasutajatunnus = eesnimi[:1].lower()+ perekonnanimi[:7].lower()
-			#Leiame e-maili aadressi 
+			#Leiame e-maili aadressi
 			email = eesnimi.lower() + "." + perekonnanimi.lower() + "@itcollege.ee"
 			#Leiame 20st suvalisest tähemärgist koosneva tokeni
 			token = "".join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(20))
@@ -55,17 +50,18 @@ try:
 			# Vali endale kahest meelepärasem meetod CSV failis väärtuste kuvamiseks:#
 			##########################################################################
 			# 1) CSV faili väljastatav tulemus // täisnime variant (ühes väärtuses on mõlemad, nii ees- kui ka perekonnanimi)
-			tulemus = kasutajatunnus, taisnimi, email, token
+			valjund = kasutajatunnus + "," + taisnimi + "," + email + "," + token
 			##########################################################################
 			# 2) CSV faili väljastatav tulemus // eraldi nimede variant (ühes väärtuses on eesnimi, teises perekonnanimi)
-			#tulemus = kasutajatunnus, eesnimi, perekonnanimi, email, token
+			#valjund = kasutajatunnus + "," + eesnimi + "," + perekonnanimi + "," + email + "," + token
 			##########################################################################
 			##########################################################################
 			try:
-				output_file = open(sys.argv[2], 'a')
-				valjund = csv.writer(output_file, quoting=csv.QUOTE_ALL)
-				valjund.writerow(tulemus)
-				output_file.close()
+				with open(sys.argv[2], 'a') as output_file:
+					#Teeme väljundfaili kirjutatavast stringi
+					valjund = str(valjund)
+					#Kirjutame tulemused faili eraldi ridadele
+					output_file.write(valjund)
 			except IOError:
 				print "Väljundfaili ei saa kirjutada..."
 				sys.exit(3)

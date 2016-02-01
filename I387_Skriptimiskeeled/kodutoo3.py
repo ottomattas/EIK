@@ -4,14 +4,11 @@
 #See skript leiab sisendfaili põhjal URLide lähtekoodist määratud stringid.
 
 #Vers. tabel
-# v0.1 - Esimesed baaselemendid
+# v0.1 Esimesed baaselemendid
+# v1.0 Valmistoode
 
 import sys
 import urllib2
-
-#NB See skript on pooleli ja sisaldab mitmeid ebatäpsuseid
-#mõeldud alustamiseks ja parandamiseks
-
 
 #Skript kontrollib argumentide arvu.
 if len(sys.argv) != 3:
@@ -19,29 +16,46 @@ if len(sys.argv) != 3:
 	print "Kasuta programmi:", sys.argv[0], "[sisendfail] [väljundfail]"
 	sys.exit(1)
 
-print "Argumentide arv on: ", len(sys.argv)
+#print "Argumentide arv on: ", len(sys.argv)
 
-#Määra sisendfail
+#Ava SISENDFAIL ning eralda tekstist URLid / stringid (lisaks kontroll selle faili avamise võimalikkusele)
 try:
-	input_file = open(sys.argv[1], 'r')
-except IOError: 
-	print "Sisendfaili ei saa avada."
-#Määra väljundfail
-try:
-        output_file = open(sys.argv[2], 'w')
+	with open(sys.argv[1], 'r') as input_file:
+		for line in input_file.readlines():
+			line = line.split(',')
+			#Leiame URLi
+			line_url = line[0]
+			#Leiame otsitava stringi
+			line_string = line[1].strip()
+			#Ava URL ning leia lähtekoodist (HTMLi) otsitav string (lisaks kontroll selle URLi avamise võimalikkusele)
+			try:
+				url = urllib2.urlopen(line_url)
+				sisu = url.read()
+				tulemus = sisu.find(line_string)
+				#Tulemus, kui string leiti
+				if tulemus > 0:
+					tulemus = "JAH"
+				#Tulemus, kui stringi ei leitud
+				else:
+					tulemus = "EI"
+				#Väljundfaili kirjutatava defineerimine
+				valjund = line_url + "," + line_string + "," + tulemus
+				#Väljundfaili kirjutamine (lisaks kontroll selle faili kirjutamise võimalikkusele)
+				try:
+					with open(sys.argv[2], 'a') as output_file:
+						#Teeme väljundfaili kirjutatavast stringi
+						valjund = str(valjund)
+						#Kirjutame tulemused faili eraldi ridadele
+						output_file.write(valjund + "\n")
+						output_file.close()
+				except IOError:
+					print "Väljundfaili ei saa kirjutada..."
+					sys.exit(3)
+			except Exception:
+				print "URLi", line_url, "ei saa avada!"
 except IOError:
-        print "Väljundfaili ei saa kirjutada."
+	print "Sisendfaili ei saa avada..."
+	sys.exit(2)
 
-#Loe URLi lähtekoodi. (Skript loeb ainult 20000 tähemärki, et mitte liigse koormuse alla sattuda.)
-#data = urllib2.urlopen("http://www.itcollege.ee").read(20000)
-#Tee lähtekoodist read, et neid võimalik lugeda oleks.
-#data = data.split("\n")
-#Prindi lähtekood.
-#for line in data:
-#    print line
-
-#Kirjuta inputfailist read outputfaili
-#for line in input_file.readlines():
-#	output_file.write(line) 
-
-print "Programm lõpetas töö"
+#Tulemuse raport kasutajale
+print "Programm lõpetas töö."

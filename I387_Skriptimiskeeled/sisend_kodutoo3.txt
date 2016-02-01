@@ -1,0 +1,4 @@
+http://www.google.com, Disco-disco
+itcollege.ee, kaugõppur
+http://itcollege.ee, kaugõppur
+http://eesti.ee, eesti
